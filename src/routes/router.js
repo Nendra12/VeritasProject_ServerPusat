@@ -8,6 +8,7 @@ const putusanController = require('../controllers/putusanController');
 const klasifikasiController = require('../controllers/klasifikasiController');
 const tahunController = require('../controllers/tahunController');
 const lembagaController = require('../controllers/lembagaController');
+const sinkronisasiController = require('../controllers/sinkronisasiController');
 
 // Apply API key middleware to all routes
 router.use(apiKeyMiddleware);
@@ -43,5 +44,11 @@ router.delete('/lembaga/:id', lembagaController.deleteLembaga);
 // Admin routes for API key management
 router.get('/lembaga-keys', lembagaController.getAllLembagaWithKeys);
 router.post('/lembaga/:id/regenerate-key', lembagaController.regenerateApiKey);
+
+// Sinkronisasi routes
+router.get('/sync/history', sinkronisasiController.getSyncHistory);
+router.get('/sync/failed', sinkronisasiController.getFailedSyncs);
+router.post('/sync/resync', sinkronisasiController.resyncPutusan);
+router.post('/sync/bulk-resync', sinkronisasiController.bulkResync);
 
 module.exports = router;
