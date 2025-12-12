@@ -151,6 +151,7 @@ module.exports = {
         }
       } catch (err) {
         console.warn(`[DAERAH FIRST] Failed to fetch from ServerDaerah, will fallback to Pusat:`, err.message);
+        console.log(err);
         daerahError = err.message;
       }
 
