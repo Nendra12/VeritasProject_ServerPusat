@@ -32,6 +32,10 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         allowNull: false,
       },
+      kode_lembaga: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       nama_lembaga: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -41,6 +45,22 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       tingkatan: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      alamat: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      telepon: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      website: {
         type: DataTypes.STRING,
         allowNull: true,
       },

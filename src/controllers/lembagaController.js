@@ -14,6 +14,7 @@ module.exports = {
             attributes: ['id', 'nama_daerah', 'provinsi'],
           },
         ],
+        attributes: ['id', 'kode_lembaga', 'nama_lembaga', 'jenis_lembaga', 'tingkatan', 'alamat', 'telepon', 'email', 'website', 'id_daerah', 'created_at', 'updated_at'],
         order: [['nama_lembaga', 'ASC']],
       });
 
@@ -164,7 +165,7 @@ module.exports = {
             attributes: ['id', 'nama_daerah', 'provinsi'],
           },
         ],
-        attributes: ['id', 'nama_lembaga', 'jenis_lembaga', 'tingkatan', 'api_key', 'url_api', 'created_at'],
+        attributes: ['id', 'kode_lembaga', 'nama_lembaga', 'jenis_lembaga', 'tingkatan', 'alamat', 'telepon', 'email', 'website', 'id_daerah', 'api_key', 'url_api', 'created_at', 'updated_at'],
         order: [['nama_lembaga', 'ASC']],
       });
 
@@ -218,4 +219,62 @@ module.exports = {
         data: null,
       });
     }
-  },};
+  },
+
+  // Update API key manually for a lembaga
+  updateApiKey: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { api_key } = req.body;
+
+      if (!api_key || api_key.trim() === '') {
+        return res.status(400).json({
+          error: true,
+          message: 'API Key is required',
+          data: null,
+        });
+      }
+
+      const lembaga = await LembagaPeradilan.findByPk(id);
+      if (!lembaga) {
+        return res.status(404).json({
+          error: true,
+          message: 'Lembaga not found',
+          data: null,
+        });
+      }
+
+      // Check if API key already exists for another lembaga
+      const existingLembaga = await LembagaPeradilan.findOne({
+        where: { api_key: api_key.trim() },
+      });
+
+      if (existingLembaga && existingLembaga.id !== id) {
+        return res.status(409).json({
+          error: true,
+          message: 'API Key already exists for another lembaga',
+          data: null,
+        });
+      }
+
+      await lembaga.update({ api_key: api_key.trim() });
+
+      return res.status(200).json({
+        error: false,
+        message: 'API Key updated successfully',
+        data: {
+          id: lembaga.id,
+          nama_lembaga: lembaga.nama_lembaga,
+          api_key: api_key.trim(),
+        },
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({
+        error: true,
+        message: 'Server Error',
+        data: null,
+      });
+    }
+  },
+};
