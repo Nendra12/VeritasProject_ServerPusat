@@ -68,9 +68,14 @@ module.exports = {
               lembagaId = uuidv4();
               dataLembaga.set(lembagaName, {
                 id: lembagaId,
+                kode_lembaga: `${jenisLembaga}-${daerahName.substring(0, 3).toUpperCase()}`,
                 nama_lembaga: lembagaName,
                 jenis_lembaga: jenisLembaga,
                 tingkatan: "Pertama",
+                alamat: `Jl. Contoh No. 123, ${daerahName}`,
+                telepon: `0353-${Math.floor(Math.random() * 900000 + 100000)}`,
+                email: `${jenisLembaga.toLowerCase()}.${daerahName.toLowerCase()}@go.id`,
+                website: `https://${jenisLembaga.toLowerCase()}-${daerahName.toLowerCase()}.go.id`,
                 id_daerah: daerahId,
                 url_api: `http://localhost:3001/api/v1/${jenisLembaga}`,
                 api_key: uuidv4(), // Generate unique API key for each lembaga

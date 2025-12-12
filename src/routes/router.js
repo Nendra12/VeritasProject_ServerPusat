@@ -49,21 +49,22 @@ router.put('/tahun/:id', tahunController.updateTahun);
 router.delete('/tahun/:id', tahunController.deleteTahun);
 
 // Lembaga write routes
-router.post('/lembaga', lembagaController.createLembaga);
-router.put('/lembaga/:id', lembagaController.updateLembaga);
-router.delete('/lembaga/:id', lembagaController.deleteLembaga);
+router.post('/lembaga', authMiddleware, lembagaController.createLembaga);
+router.put('/lembaga/:id', authMiddleware, lembagaController.updateLembaga);
+router.delete('/lembaga/:id', authMiddleware, lembagaController.deleteLembaga);
 
-// Admin routes for API key management (keep protected)
-router.get('/lembaga-keys', lembagaController.getAllLembagaWithKeys);
-router.post('/lembaga/:id/regenerate-key', lembagaController.regenerateApiKey);
+// Admin routes for API key management (requires JWT authentication)
+router.get('/lembaga-keys', authMiddleware, lembagaController.getAllLembagaWithKeys);
+router.post('/lembaga/:id/regenerate-key', authMiddleware, lembagaController.regenerateApiKey);
+router.put('/lembaga/:id/api-key', authMiddleware, lembagaController.updateApiKey);
 
 // Daerah write routes
-router.post('/daerah', daerahController.create);
-router.put('/daerah/:id', daerahController.update);
-router.delete('/daerah/:id', daerahController.destroy);
+router.post('/daerah', authMiddleware, daerahController.create);
+router.put('/daerah/:id', authMiddleware, daerahController.update);
+router.delete('/daerah/:id', authMiddleware, daerahController.destroy);
 
 // Sinkronisasi write routes
-router.post('/sync/resync', sinkronisasiController.resyncPutusan);
-router.post('/sync/bulk-resync', sinkronisasiController.bulkResync);
+router.post('/sync/resync', authMiddleware, sinkronisasiController.resyncPutusan);
+router.post('/sync/bulk-resync', authMiddleware, sinkronisasiController.bulkResync);
 
 module.exports = router;

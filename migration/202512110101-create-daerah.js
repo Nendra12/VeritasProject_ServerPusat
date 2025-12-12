@@ -2,6 +2,11 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
+    // Enable uuid-ossp extension for UUID support
+    await queryInterface.sequelize.query(
+      'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+    );
+
     await queryInterface.createTable('Daerah', {
       id: {
         type: Sequelize.UUID,

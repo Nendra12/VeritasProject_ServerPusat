@@ -2,6 +2,11 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
+    // Enable uuid extension if not already enabled
+    await queryInterface.sequelize.query(
+      'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+    );
+
     await queryInterface.createTable("Admins", {
       id: {
         type: Sequelize.UUID,
@@ -42,5 +47,7 @@ module.exports = {
 
   async down(queryInterface) {
     await queryInterface.dropTable("Admins");
+    // Optionally drop extension (commented out to avoid affecting other tables)
+    // await queryInterface.sequelize.query('DROP EXTENSION IF EXISTS "uuid-ossp";');
   },
 };
